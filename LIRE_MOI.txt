@@ -1,0 +1,73 @@
+╔══════════════════════════════════════════════════════╗
+║         LOGISTMA FACTORY — GUIDE DE DÉMARRAGE        ║
+╚══════════════════════════════════════════════════════╝
+
+AVANT DE LANCER LE SCRIPT, INSTALLE CES 2 LOGICIELS :
+(si tu ne les as pas déjà)
+
+  1. Node.js  →  https://nodejs.org
+                 Clique sur "LTS" → installe
+
+  2. Git      →  https://git-scm.com
+                 Télécharge → installe (tout par défaut)
+
+──────────────────────────────────────────────────────
+COMMENT DÉPLOYER :
+──────────────────────────────────────────────────────
+
+  Double-clique sur :  DEPLOYER.bat
+
+  Le script te pose 5 questions :
+    → Token du bot Telegram (depuis @BotFather)
+    → Ton ID Telegram (depuis @userinfobot)
+    → Token de paiement (depuis @BotFather → Payments)
+    → Ton username GitHub
+    → Nom du repo (appuie sur ENTRÉE pour garder le défaut)
+
+  Ensuite il fait TOUT automatiquement :
+    ✓ Pousse le code sur GitHub
+    ✓ Déploie le backend sur Railway
+    ✓ Déploie le frontend sur Vercel
+    ✓ Configure le webhook Telegram
+    ✓ Configure les variables d'environnement
+
+  Durée totale : ~10-15 minutes
+
+──────────────────────────────────────────────────────
+CE QUI SE PASSE APRÈS :
+──────────────────────────────────────────────────────
+
+  Tu reçois 2 URLs :
+    • https://logistma-factory.vercel.app  ← le wizard
+    • https://xxxxx.up.railway.app          ← l'API
+
+  Tes clients :
+    1. Ouvrent le wizard
+    2. Configurent leur app en 6 étapes
+    3. Reçoivent une invoice Telegram en MP
+    4. Paient directement dans Telegram
+    5. Leur Mini App est déployée automatiquement
+
+──────────────────────────────────────────────────────
+PROBLÈMES COURANTS :
+──────────────────────────────────────────────────────
+
+  ❌ "Node.js n'est pas installé"
+     → Installe Node.js depuis nodejs.org et relance
+
+  ❌ "Git n'est pas installé"
+     → Installe Git depuis git-scm.com et relance
+
+  ❌ Le navigateur s'ouvre pour Railway/Vercel
+     → C'est normal ! Connecte-toi avec ton compte GitHub
+
+  ❌ Erreur lors du push GitHub
+     → Va sur github.com → crée un compte si pas fait
+     → Puis relance DEPLOYER.bat
+
+──────────────────────────────────────────────────────
+SUPPORT :
+──────────────────────────────────────────────────────
+
+  Telegram : @LogisTMASupport
+  Email    : support@logistma.app
