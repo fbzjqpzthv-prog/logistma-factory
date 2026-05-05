@@ -3,6 +3,14 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import logger from '../utils/logger.js';
+import { mkdirSync } from 'fs';
+
+// Crée le dossier data/ s'il n'existe pas
+const dbPath = process.env.FACTORY_DB_PATH || './data/factory.sqlite';
+const dbDir = dbPath.substring(0, dbPath.lastIndexOf('/'));
+if (dbDir) {
+  try { mkdirSync(dbDir, { recursive: true }); } catch (_) {}
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
