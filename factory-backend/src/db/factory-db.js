@@ -122,6 +122,13 @@ export const rateLimitQueries = {
   },
 };
 
+export function newId() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+export function now() {
+  return new Date().toISOString();
+}
 export function getFeaturesForPlan(plan) {
   const features = {
     starter: { gps_tracking: true, notifications: true },
