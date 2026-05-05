@@ -3,7 +3,7 @@
  */
 
 import { Router } from 'express';
-import { rateLimitQueries, deploymentQueries, tenantQueries } from '../../db/factory-db.js';
+import { deploymentQueries } from '../../db/factory-db.js';
 import { startProvisioningAsync, validateTelegramBot } from '../../services/provisioner.js';
 import { getPlansForAPI, sendPaymentInvoice } from '../../services/billingService.js';
 import { generatePreviewVars } from '../../services/themeBuilder.js';
@@ -13,17 +13,7 @@ import logger from '../../utils/logger.js';
 export const deployRouter = Router();
 
 deployRouter.post('/', async (req, res) => {
-  const ip = req.ip || req.connection.remoteAddress;
   const adminId = req.user?.telegramId;
-
-  // Rate limiting
-  try {
-    const rl = rateLimitQueries.check(`deploy:ip:${ip}`, 3, 3600);
-    if (!rl.allowed) {
-      return res.status(429).json({ error: 'Trop de déploiements. Maximum 3 par heure.' });
-    }
-  } catch (_) {}
-
   const { companyName, botToken, sector, emoji, theme, features, plan, adminId: bodyAdminId } = req.body;
 
   if (!companyName?.trim()) return res.status(400).json({ error: "Nom d'entreprise requis" });
@@ -88,27 +78,27 @@ deployRouter.post('/preview-theme', (req, res) => {
 export const statusRouter = Router();
 
 const STEP_LABELS = {
-  init: 'Initialisation',
-  generating_id: "Génération de l'identifiant",
-  validating_bot: 'Validation du bot Telegram',
-  creating_tenant: 'Création du tenant',
-  cloning_template: 'Clonage du template',
-  injecting_config: 'Injection de la configuration',
-  building: 'Build du frontend',
-  deploying_railway: 'Déploiement',
-  configuring_dns: 'Configuration DNS',
+  init:                'Initialisation',
+  generating_id:       "Génération de l'identifiant",
+  validating_bot:      'Validation du bot Telegram',
+  creating_tenant:     'Création du tenant',
+  cloning_template:    'Clonage du template',
+  injecting_config:    'Injection de la configuration',
+  building:            'Build du frontend',
+  deploying_railway:   'Déploiement',
+  configuring_dns:     'Configuration DNS',
   configuring_webhook: 'Webhook Telegram',
-  running_tests: 'Tests automatiques',
-  saving: 'Finalisation',
-  notifying: 'Notification',
+  running_tests:       'Tests automatiques',
+  saving:              'Finalisation',
+  notifying:           'Notification',
 };
 
 const STEP_ORDER = Object.keys(STEP_LABELS);
 
-statusRouter.get('/:deploymentId', (req, res) => {
+statusRouter.get('/:deploymentId', async (req, res) => {
   const { deploymentId } = req.params;
   try {
-    const deployment = deploymentQueries.findById(deploymentId);
+    const deployment = await deploymentQueries.findById(deploymentId);
     if (!deployment) return res.status(404).json({ error: 'Déploiement non trouvé' });
 
     const stepsCompleted = JSON.parse(deployment.steps_completed || '[]');
