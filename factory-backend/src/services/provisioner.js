@@ -104,9 +104,9 @@ export async function validateTelegramBot(botToken) {
   }
 
   // Vérifier que ce bot n'est pas déjà enregistré
-  const existing = tenantQueries.findByBotUsername(botInfo.username);
-  if (existing && existing.status !== 'deleted') {
-    throw new Error(`Le bot @${botInfo.username} est déjà utilisé par un autre tenant.`);
+  // const existing = tenantQueries.findByBotUsername(botInfo.username);
+  // if (existing && existing.status !== 'deleted') {
+    // throw new Error(`Le bot @${botInfo.username} est déjà utilisé par un autre tenant.`);
   }
 
   logger.info({ botUsername: botInfo.username, botId: botInfo.id }, 'Bot Telegram validé');
