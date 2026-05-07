@@ -111,7 +111,7 @@ export async function validateTelegramBot(botToken) {
 
   logger.info({ botUsername: botInfo.username, botId: botInfo.id }, 'Bot Telegram validé');
   return botInfo;
-}
+//}
 
 // ═══════════════════════════════════════
 // CLONAGE DU TEMPLATE
